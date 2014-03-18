@@ -6,6 +6,7 @@ type Item struct {
 	Tags          string // seperated by comma, should be mapped with Tag model in database
 	Condition     uint8  // percentage of status after depreciation
 	Status        string // ([A]vailable / [H]old / [N]ot available...will be hidden) only avabile when it is posted by registered user
+	Duration      int    // list duration. default 7 days
 	Location      string // current location, free text, can be just district
 	Handover      string // ([F]ace / [D]elivery) handover method
 	Delivery      string // ([P]ost / [C]ourrier) delivery method if not handover
