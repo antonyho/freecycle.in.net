@@ -1,23 +1,62 @@
-{{set . "title" "Home"}}
+{{set . "title" "FreeCycle"}}
+{{append . "moreStyles" "css/cover.css"}}
 {{template "header.html" .}}
 
-<header class="hero-unit" style="background-color:#A9F16C">
-  <div class="container">
-    <div class="row">
-      <div class="hero-text">
-        <h1>Welcome to FreeCycle.in.net</h1>
-        <p>Description to the site and explain objective</p>
-      </div>
-    </div>
-  </div>
-</header>
-
-<div class="container">
-  <div class="row">
-    <div class="span6">
-      {{template "flash.html" .}}
-    </div>
-  </div>
-</div>
+		<div class="site-wrapper">
+		
+			<div class="site-wrapper-inner">
+			
+				<div class="cover-container">
+				
+					<div class="masthead clearfix">
+						<div class="inner">
+							<h3 class="masthead-brand">Free Cycle</h3>
+							<ul class="nav masthead-nav">
+								<li class="active"><a href="#">Item List</a></li>
+								<li><a href="#">Give Item</a></li>
+								<li><a href="#">Objectives</a></li>
+							</ul>
+						</div>
+						<div class="inner row">
+							<div class="col-lg-2 col-sx-6">
+								<div class="input-group">
+									<input type="text" class="form-control" data-toggle="tooltip" data-placement="top" title="Search Item" placeholder="Search for item here...">
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button">
+											<span class="glyphicon glyphicon-search"></span>
+										</button>
+									</span>
+								</div><!-- /input-group -->
+							</div><!-- /.col-lg-6 -->
+						</div>
+					</div>
+							
+					<div class="inner cover">
+						<h1 class="cover-heading">Free to Give and Get!</h1>
+						<p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
+						<p class="lead">
+							<a href="#" class="btn btn-lg btn-default">Our Objectives</a>
+						</p>
+					</div>
+							
+					<div class="mastfoot">
+						<div class="inner">
+							<p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+						</div>
+					</div>
+				
+				</div>
+			
+			</div>
+		
+		</div>
+		
+		<div class="container">
+			<div class="row">
+				<div class="span6">
+				{{template "flash.html" .}}
+				</div>
+			</div>
+		</div>
 
 {{template "footer.html" .}}

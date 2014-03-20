@@ -12,6 +12,8 @@ type Item struct {
 	Delivery      string // ([P]ost / [C]ourrier) delivery method if not handover
 	ContactMethod string // free text for user
 	Contact       string
-	Email         string // optional for user notification purpose
+	Email         string // mandatory. used for sending verification email. updating item status by replying email. contacting with request.
 	Owner         uint   // owner ID if it is registered (optional subscription)
+	PostDate      int64  // returned by time.Time.Now() unixepoch
+	UpdateDate    int64  // returned by time.Time.Now() unixepoch
 }

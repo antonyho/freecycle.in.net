@@ -1,7 +1,8 @@
 package controllers
 
 import (
-	"github.com/antonyho/freecycle.in.net/models"
+	"github.com/antonyho/freecycle.in.net/app/models"
+	"github.com/antonyho/freecycle.in.net/app/utils"
 	"github.com/revel/revel"
 )
 
@@ -9,7 +10,21 @@ type Post struct {
 	*revel.Controller
 }
 
-func (p *Post) New(models.Item) revel.Result {
+func (p *Post) NewForm() revel.Result {
+	return p.Render()
+}
+
+func (p *Post) New(item models.Item) revel.Result {
+	dbutils := new(utils.DbUtils)
+	session, _ := dbutils.GetSession()
+	defer session.Close()
+	itemCollection := session.DB("freecycle").C("item")
+	err := itemCollection.Insert(item)
+	if err != nil {
+		revel.ERROR.Println("Cannot insert record in to 'item'")
+		revel.ERROR.Println(err)
+	}
+
 	return p.Render()
 }
 
