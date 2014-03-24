@@ -16,15 +16,71 @@
 							</div>
 						</div>
 					</div>
-
-					<div class="inner">	
-						<form action="/Post/New" method="post">
-							{{with $field := field "item.Title" .}}
-							<input type="text" name="{{$field.Name}}" value="{{$field.Flash}}" class="form-control" placeholder="Title" required autofocus>
-							{{end}}
-						</form>
-					</div>
-							
+				</div>
+				
+				<div class="container">
+					<form action="/Post/New" method="post" role="form" class="form-post-item col-xs-12 col-md-6">
+						<h2>Information about your item</h2>
+						{{with $field := field "item.Title" .}}
+						<div class="form-group">
+							<label for="{{$field.Name}}">Item Name</label>
+							<input type="text" name="{{$field.Name}}" id="{{$field.Name}}" value="{{$field.Flash}}" class="form-control" placeholder="Give a title to this listing..." required autofocus>
+						</div>
+						{{end}}
+						
+						{{with $field := field "item.Description" .}}
+						<div class="form-group">
+							<label for="{{$field.Name}}">Description</label>
+							<textarea name="{{$field.Name}}" rows="3" id="{{$field.Name}}" value="{{$field.Flash}}" class="form-control" placeholder="Description something about the item, your contact method, constraints to give..."></textarea>
+						</div>
+						{{end}}
+						
+						{{with $field := field "item.Tags" .}}
+						<div class="form-group">
+							<label for="{{$field.Name}}">Tags</label><p class="help-block">Type any keyword to describe this item, then press [Enter].</p>
+							<input type="text" name="{{$field.Name}}" id="{{$field.Name}}" data-role="tagsinput" class="form-control" placeholder="Keyword..." required>
+						</div>
+						{{end}}
+						
+						{{with $field := field "item.Condition" .}}
+						<div class="form-group">
+							<label for="{{$field.Name}}">Condition</label>
+							<div class="input-group">
+								<input type="number" min="0" max="100" step="10" name="{{$field.Name}}" id="{{$field.Name}}" class="form-control" placeholder="80" required>
+								<span class="input-group-addon">%</span>
+							</div>
+						</div>
+						{{end}}
+						
+						{{with $field := field "item.Duration" .}}
+						<div class="form-group">
+							<label for="{{$field.Name}}">Duration</label>
+							<div class="input-group">
+								<input type="number" min="5" value="{{$field.Flash}}" name="{{$field.Name}}" id="{{$field.Name}}" class="form-control" placeholder="7">
+								<span class="input-group-addon">day(s)</span>
+							</div>
+						</div>
+						{{end}}
+						
+<!--
+	Location      string // current location, free text, can be just district
+	Handover      string // ([F]ace / [D]elivery) handover method
+	Delivery      string // ([P]ost / [C]ourrier) delivery method if not handover
+	ContactMethod string // free text for user
+	Contact       string
+	Email         string // mandatory. used for sending verification email. updating item status by replying email. contacting with request.
+	Owner         uint   // owner ID if it is registered (optional subscription)
+	PostDate      int64  // returned by time.Time.Now() unixepoch
+	UpdateDate    int64  // returned by time.Time.Now() unixepoch
+-->
+						
+						
+						
+						
+					</form>
+				</div>
+				
+				<div class="cover-container">
 					<div class="mastfoot">
 						<div class="inner">
 							<p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
