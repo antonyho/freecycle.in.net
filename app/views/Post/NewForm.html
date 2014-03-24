@@ -1,0 +1,41 @@
+{{set . "title" "FreeCycle"}}
+{{append . "moreStyles" "css/cover.css"}}
+{{template "header.html" .}}
+
+		<div class="site-wrapper">
+		
+			<div class="site-wrapper-inner">
+			
+				<div class="cover-container">
+				
+					<div class="masthead clearfix">
+						<div class="inner">
+							<div class="row">
+								<h3 class="masthead-brand">Free Cycle</h3>
+{{template "navigation.html" .}}
+							</div>
+						</div>
+					</div>
+
+					<div class="inner">	
+						<form action="/Post/New" method="post">
+							{{with $field := field "item.Title" .}}
+							<input type="text" name="{{$field.Name}}" value="{{$field.Flash}}" class="form-control" placeholder="Title" required autofocus>
+							{{end}}
+						</form>
+					</div>
+							
+					<div class="mastfoot">
+						<div class="inner">
+							<p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+						</div>
+					</div>
+				
+				</div>
+			
+			</div>
+		
+		</div>
+		
+
+{{template "footer.html" .}}
