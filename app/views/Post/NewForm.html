@@ -42,6 +42,10 @@
 						</div>
 						{{end}}
 						
+						{{with $field := field "item.Status" .}}
+						<input type="hidden" name="{{$field.Name}}" value="A">
+						{{end}}
+						
 						{{with $field := field "item.Condition" .}}
 						<div class="form-group">
 							<label for="{{$field.Name}}">Condition</label>
