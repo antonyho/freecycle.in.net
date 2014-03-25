@@ -1,0 +1,47 @@
+{{set . "title" "FreeCycle"}}
+{{append . "moreStyles" "css/cover.css"}}
+{{template "header.html" .}}
+
+		<div class="site-wrapper">
+		
+			<div class="site-wrapper-inner">
+			
+				<div class="cover-container">
+				
+					<div class="masthead clearfix">
+						<div class="inner">
+							<div class="row">
+								<h3 class="masthead-brand">Free Cycle</h3>
+{{template "navigation.html" .}}
+							</div>
+						</div>
+					</div>
+
+					<div class="inner">
+						<div class="cover">
+							<h1 class="cover-heading">Our Objectives</h1>
+							<p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
+						</div>
+					</div>
+							
+					<div class="mastfoot">
+						<div class="inner">
+							<p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+						</div>
+					</div>
+				
+				</div>
+			
+			</div>
+		
+		</div>
+		
+		<div class="container">
+			<div class="row">
+				<div class="span6">
+				{{template "flash.html" .}}
+				</div>
+			</div>
+		</div>
+
+{{template "footer.html" .}}

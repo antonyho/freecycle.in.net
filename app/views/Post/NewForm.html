@@ -19,7 +19,7 @@
 				</div>
 				
 				<div class="container">
-					<form action="/Post/New" method="post" role="form" class="form-post-item col-xs-12 col-md-6">
+					<form action="{{url "Post.New"}}" method="post" role="form" class="form-post-item col-xs-12 col-md-6">
 						<h2>Information about your item</h2>
 						{{with $field := field "item.Title" .}}
 						<div class="form-group">
@@ -46,7 +46,7 @@
 						<div class="form-group">
 							<label for="{{$field.Name}}">Condition</label>
 							<div class="input-group">
-								<input type="number" min="0" max="100" step="10" name="{{$field.Name}}" id="{{$field.Name}}" class="form-control" placeholder="80" required>
+								<input type="number" min="1" max="100" step="10" name="{{$field.Name}}" id="{{$field.Name}}" class="form-control" placeholder="80" required>
 								<span class="input-group-addon">%</span>
 							</div>
 						</div>
@@ -61,9 +61,15 @@
 							</div>
 						</div>
 						{{end}}
+
+						{{with $field := field "item.Location" .}}
+						<div class="form-group">
+							<label for="{{$field.Name}}">Pickup Location</label>
+							<input type="text" name="{{$field.Name}}" id="{{$field.Name}}" value="{{$field.Flash}}" class="form-control" placeholder="Describe the pickup location...">
+						</div>
+						{{end}}
 						
 <!--
-	Location      string // current location, free text, can be just district
 	Handover      string // ([F]ace / [D]elivery) handover method
 	Delivery      string // ([P]ost / [C]ourrier) delivery method if not handover
 	ContactMethod string // free text for user
