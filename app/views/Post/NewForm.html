@@ -65,9 +65,35 @@
 						</div>
 						{{end}}
 						
+						{{with $field := field "item.Handover" .}}
+						<div class="form-group">
+							<label for="{{$field.Name}}">Handover Method</label>
+							<div class="btn-group" data-toggle="buttons">
+								<label class="btn btn-default">
+									<input type="radio" name="{{$field.Name}}" value="F">In Face
+								</label>
+								<label class="btn btn-default">
+									<input type="radio" name="{{$field.Name}}" value="D">Delivery
+								</label>
+							</div>
+						</div>
+						{{end}}
+						
+						{{with $field := field "item.Delivery" .}}
+						<div class="form-group" id="deliveryBlock">
+							<label for="{{$field.Name}}">Delivery Method</label>
+							<div class="btn-group" data-toggle="buttons">
+								<label class="btn btn-default">
+									<input type="radio" name="{{$field.Name}}" value="P">Postal
+								</label>
+								<label class="btn btn-default">
+									<input type="radio" name="{{$field.Name}}" value="C">Courrier
+								</label>
+							</div>
+						</div>
+						{{end}}
+						
 <!--
-	Handover      string // ([F]ace / [D]elivery) handover method
-	Delivery      string // ([P]ost / [C]ourrier) delivery method if not handover
 	ContactMethod string // free text for user
 	Contact       string
 	Email         string // mandatory. used for sending verification email. updating item status by replying email. contacting with request.
@@ -95,5 +121,21 @@
 		
 		</div>
 		
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('#deliveryBlock').hide();
+				
+				$('input[name="item.Handover"]').change(function() {
+					if ($(this).val() == 'F') {
+						$('input[name="item.Delivery"]').parent().removeClass('active');
+						$('input[name="item.Delivery"]').parent().prop('disabled', true);
+						$('#deliveryBlock').hide();
+					}
+					else {
+						$('#deliveryBlock').show();
+					}
+				});
+			});
+		</script>
 
 {{template "footer.html" .}}
