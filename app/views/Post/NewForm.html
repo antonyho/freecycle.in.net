@@ -57,13 +57,6 @@
 							</div>
 						</div>
 						{{end}}
-
-						{{with $field := field "item.Location" .}}
-						<div class="form-group">
-							<label for="{{$field.Name}}">Pickup Location</label>
-							<input type="text" name="{{$field.Name}}" id="{{$field.Name}}" value="{{$field.Flash}}" class="form-control" placeholder="Describe the pickup location...">
-						</div>
-						{{end}}
 						
 						{{with $field := field "item.Handover" .}}
 						<div class="form-group">
@@ -76,6 +69,13 @@
 									<input type="radio" name="{{$field.Name}}" value="D">Delivery
 								</label>
 							</div>
+						</div>
+						{{end}}
+						
+						{{with $field := field "item.Location" .}}
+						<div class="form-group" id="pickupLocationBlock">
+							<label for="{{$field.Name}}">Pickup Location</label>
+							<input type="text" name="{{$field.Name}}" id="{{$field.Name}}" value="{{$field.Flash}}" class="form-control" placeholder="Describe the pickup location...">
 						</div>
 						{{end}}
 						
@@ -93,18 +93,35 @@
 						</div>
 						{{end}}
 						
+						{{with $field := field "item.ContactMethod" .}}
+						<div class="form-group">
+							<label for="{{$field.Name}}">Contact Method</label>
+							<input type="text" name="{{$field.Name}}" id="{{$field.Name}}" value="{{$field.Flash}}" class="form-control" placeholder="Briefly provide your prefered contact method...">
+						</div>
+						{{end}}
+						
+						{{with $field := field "item.Contact" .}}
+						<div class="form-group">
+							<label for="{{$field.Name}}">Your Contact Name</label>
+							<input type="text" name="{{$field.Name}}" id="{{$field.Name}}" value="{{$field.Flash}}" class="form-control" placeholder="Your contact name...">
+						</div>
+						{{end}}
+						
+						{{with $field := field "item.Email" .}}
+						<div class="form-group">
+							<label for="{{$field.Name}}">Contact E-Mail</label>
+							<input type="email" name="{{$field.Name}}" id="{{$field.Name}}" value="{{$field.Flash}}" class="form-control" required placeholder="Please provide your email...">
+						</div>
+						{{end}}
 <!--
-	ContactMethod string // free text for user
-	Contact       string
-	Email         string // mandatory. used for sending verification email. updating item status by replying email. contacting with request.
 	Owner         uint   // owner ID if it is registered (optional subscription)
-	PostDate      int64  // returned by time.Time.Now() unixepoch
-	UpdateDate    int64  // returned by time.Time.Now() unixepoch
 -->
 						
 						
 						<!-- TODO: reCAPTCHA by Google on every post form -->
 						
+						
+						<button type="submit" class="btn btn-default">Done</button>
 					</form>
 				</div>
 				
@@ -123,6 +140,7 @@
 		
 		<script type="text/javascript">
 			$(document).ready(function() {
+				$('#pickupLocationBlock').hide();
 				$('#deliveryBlock').hide();
 				
 				$('input[name="item.Handover"]').change(function() {
@@ -130,9 +148,11 @@
 						$('input[name="item.Delivery"]').parent().removeClass('active');
 						$('input[name="item.Delivery"]').parent().prop('disabled', true);
 						$('#deliveryBlock').hide();
+						$('#pickupLocationBlock').show();
 					}
 					else {
 						$('#deliveryBlock').show();
+						$('#pickupLocationBlock').hide();
 					}
 				});
 			});

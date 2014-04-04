@@ -4,6 +4,8 @@ import (
 	"github.com/antonyho/freecycle.in.net/app/models"
 	"github.com/antonyho/freecycle.in.net/app/utils"
 	"github.com/revel/revel"
+	"log"
+	"time"
 )
 
 type Post struct {
@@ -15,6 +17,10 @@ func (p *Post) NewForm() revel.Result {
 }
 
 func (p *Post) New(item models.Item) revel.Result {
+	now := time.Now().Unix()
+	log.Println(p.Params)
+	item.PostDate = now
+	item.UpdateDate = now
 	dbutils := new(utils.DbUtils)
 	session, _ := dbutils.GetSession()
 	defer session.Close()

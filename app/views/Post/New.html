@@ -1,0 +1,41 @@
+{{set . "title" "FreeCycle"}}
+{{append . "moreStyles" "css/cover.css"}}
+{{template "header.html" .}}
+
+		<div class="site-wrapper">
+		
+			<div class="site-wrapper-inner">
+			
+				<div class="cover-container">
+{{template "navigation.html" .}}
+
+					<div class="inner">
+						<div class="cover">
+							<h1 class="cover-heading">Thank you!</h1>
+							<p class="lead">
+								Thanks for giving! Please check your email and verify the listing.
+							</p>
+						</div>
+					</div>
+							
+					<div class="mastfoot">
+						<div class="inner">
+							<p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+						</div>
+					</div>
+				
+				</div>
+			
+			</div>
+		
+		</div>
+		
+		<div class="container">
+			<div class="row">
+				<div class="span6">
+				{{template "flash.html" .}}
+				</div>
+			</div>
+		</div>
+
+{{template "footer.html" .}}
