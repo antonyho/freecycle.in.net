@@ -1,0 +1,21 @@
+navigation.brand=Free Cycle
+navigation.link.itemlist=Item List
+navigation.link.newform=Give Item
+navigation.link.objectives=Objectives
+navigation.searchitembar.tooltip=Search Item
+navigation.searchitembar.placeholder=Search for item here...
+
+app.index.slogan.headline=Free to Give and Get!
+app.index.slogan.content=Have something still usable to dump? Dumping furniture in good condition is too wasting and costs you money to dump? Why not trying to pass it to someone before throwing still usable thing? We make too much waste daily and our landfills are running out. We can reduce waste from the source!
+app.index.slogan.objective=Our Objectives
+
+app.objectives.headlind=Our Objectives
+app.objectives.1=Encourage re-use
+app.objectives.2=Create the atmosphere and habit of passing usable things, and getting usable thing apart from buying all the time
+app.objectives.3=Reduce waste
+app.objectives.4=Make people think twice before throwing and buying
+
+post.newform.heading=Information about your item
+post.newform.label.title=Item Name
+post.newform.label.description=Description
+post.newform.label.tag=Tags
