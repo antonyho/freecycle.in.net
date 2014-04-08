@@ -4,6 +4,7 @@ import (
 	"github.com/antonyho/freecycle.in.net/app/models"
 	"github.com/antonyho/freecycle.in.net/app/utils"
 	"github.com/revel/revel"
+	"log"
 	"time"
 )
 
@@ -19,7 +20,7 @@ func (p *Post) New(item models.Item) revel.Result {
 	now := time.Now().Unix()
 	item.PostDate = now
 	item.UpdateDate = now
-	
+
 	// TODO add validations
 
 	dbutils := new(utils.DbUtils)
@@ -42,9 +43,22 @@ func (p *Post) List() revel.Result {
 	session, db := dbutils.GetSession()
 	defer session.Close()
 	itemCollection := db.C("item")
-	// TODO find all Action items ordered by date
+	var itemList []models.Item
+	query := itemCollection.Find(nil).Limit(100).Sort("-PostDate")
+	err := query.All(&itemList)
 
-	return p.Render()
+	if err != nil {
+		// TODO print error or redirect to error page
+		log.Panicln(err)
+	}
+
+	/**** DEBUG ****/
+	for _, itm := range itemList {
+		log.Println(itm)
+	}
+	/**** DEBUG ****/
+
+	return p.Render(itemList)
 }
 
 /*
