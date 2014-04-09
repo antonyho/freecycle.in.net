@@ -58,7 +58,7 @@ func (p *Post) List() revel.Result {
 	}
 	/**** DEBUG ****/
 
-	return p.Render(itemList)
+	return p.RenderJson(itemList)
 }
 
 /*
