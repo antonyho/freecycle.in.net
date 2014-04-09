@@ -21,14 +21,8 @@
 							</div>
 						</div>
 
-						<table class="table table-hover">
+						<table class="table table-hover" id="itemlist">
 							<caption><h2>Latest Items</h2></caption>
-							<tr><td>Item A</td><td>Condition</td><td>Location</td></tr>
-							<tr><td>Item B</td><td>Condition</td><td>Location</td></tr>
-							<tr><td>Item C</td><td>Condition</td><td>Location</td></tr>
-							<tr><td>Item D</td><td>Condition</td><td>Location</td></tr>
-							<tr><td>Item E</td><td>Condition</td><td>Location</td></tr>
-							<tr><td>Item F</td><td>Condition</td><td>Location</td></tr>
 						</table>
 					</div>
 							
@@ -43,13 +37,23 @@
 			</div>
 		
 		</div>
-		
-		<div class="container">
-			<div class="row">
-				<div class="span6">
-				{{template "flash.html" .}}
-				</div>
-			</div>
-		</div>
+
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$.post(
+					'/Post/List', 
+					function(data) {
+						for (item in data) {
+							var newRow = $("<tr></tr>");
+							var newTitleCol = $("<td></td>").append(item.Title);
+							var newConditionCol = $("<td></td>").append(item.Condition);
+							var newLocationCol = $("<td></td>").append(item.Location);
+							newRow.append(newTitleCol).append(newConditionCol).append(newLocationCol);
+							$("#itemlist").append(newRow);
+						}
+					}, 
+					'json');
+			});
+		</script>
 
 {{template "footer.html" .}}
