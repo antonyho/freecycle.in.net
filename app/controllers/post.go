@@ -44,7 +44,7 @@ func (p *Post) List() revel.Result {
 	defer session.Close()
 	itemCollection := db.C("item")
 	var itemList []models.Item
-	query := itemCollection.Find(nil).Limit(100).Sort("-PostDate")
+	query := itemCollection.Find(nil).Limit(100).Sort("-postdate")
 	err := query.All(&itemList)
 
 	if err != nil {

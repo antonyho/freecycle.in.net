@@ -43,12 +43,40 @@
 				$.post(
 					'/Post/List', 
 					function(data) {
-						for (item in data) {
+						for (idx in data) {
+							var item = data[idx];
 							var newRow = $("<tr></tr>");
 							var newTitleCol = $("<td></td>").append(item.Title);
-							var newConditionCol = $("<td></td>").append(item.Condition);
-							var newLocationCol = $("<td></td>").append(item.Location);
-							newRow.append(newTitleCol).append(newConditionCol).append(newLocationCol);
+							var newConditionBadge = $("<span></span>").addClass("badge");
+							if (item.Condition < 100)
+								newConditionBadge.append(item.Condition).append("%");
+							else
+								newConditionBadge.append("new");
+							newTitleCol.append(newConditionBadge);
+
+							var handling;
+							switch (item.Handover) {
+								case "F":
+								handling = item.Location;
+								break;
+
+								case "D":
+								switch (item.Delivery) {
+									case "P":
+									handling = "Postal";
+									break;
+
+									case "C":
+									handling = "Courrier";
+									break;
+
+									default:
+									handling = "Delivery"
+								}
+								break;
+							}
+							var newLocationCol = $("<td></td>").append(handling);
+							newRow.append(newTitleCol).append(newLocationCol);
 							$("#itemlist").append(newRow);
 						}
 					}, 
