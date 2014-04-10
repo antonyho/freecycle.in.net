@@ -109,7 +109,7 @@
 						
 						{{with $field := field "item.Email" .}}
 						<div class="form-group">
-							<label for="{{$field.Name}}">Contact E-Mail</label>
+							<label for="{{$field.Name}}">Contact E-Mail</label><p class="help-block">Our site will never expose your email to any party</p>
 							<input type="email" name="{{$field.Name}}" id="{{$field.Name}}" value="{{$field.Flash}}" class="form-control" required placeholder="Please provide your email...">
 						</div>
 						{{end}}
