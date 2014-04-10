@@ -21,8 +21,12 @@
 							</div>
 						</div>
 
-						<table class="table table-hover" id="itemlist">
+						<table class="table table-hover table-condensed" id="itemlist">
 							<caption><h2>Latest Items</h2></caption>
+							<thead>
+								<tr><th>Item</th><th>Handover Method</th><th>Post Date</th></tr>
+							</thead>
+							<tbody></tbody>
 						</table>
 					</div>
 							
@@ -47,11 +51,11 @@
 							var item = data[idx];
 							var newRow = $("<tr></tr>");
 							var newTitleCol = $("<td></td>").append(item.Title);
-							var newConditionBadge = $("<span></span>").addClass("badge");
+							var newConditionBadge = $("<span></span>");
 							if (item.Condition < 100)
-								newConditionBadge.append(item.Condition).append("%");
+								newConditionBadge.addClass("badge").append(item.Condition).append("%");
 							else
-								newConditionBadge.append("new");
+								newConditionBadge.addClass("label label-default").append("new");
 							newTitleCol.append(newConditionBadge);
 
 							var handling;
@@ -76,8 +80,13 @@
 								break;
 							}
 							var newLocationCol = $("<td></td>").append(handling);
-							newRow.append(newTitleCol).append(newLocationCol);
-							$("#itemlist").append(newRow);
+
+							var newPostDate = $("<td></td>");
+							var postDate = new Date(item.PostDate * 1000);
+							newPostDate.append($.datepicker.formatDate('yy-mm-dd', postDate));
+
+							newRow.append(newTitleCol).append(newLocationCol).append(newPostDate);
+							$("#itemlist > tbody").append(newRow);
 						}
 					}, 
 					'json');
