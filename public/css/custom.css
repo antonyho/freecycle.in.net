@@ -11,3 +11,7 @@
 .table tbody {
 	text-align: left;
 }
+
+ul > li {
+	text-align: left;
+}
