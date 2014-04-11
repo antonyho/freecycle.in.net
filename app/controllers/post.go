@@ -4,7 +4,9 @@ import (
 	"github.com/antonyho/freecycle.in.net/app/models"
 	"github.com/antonyho/freecycle.in.net/app/utils"
 	"github.com/revel/revel"
+	"labix.org/v2/mgo/bson"
 	"log"
+	"strings"
 	"time"
 )
 
@@ -34,6 +36,23 @@ func (p *Post) New(item models.Item) revel.Result {
 	}
 
 	// TODO Search for the tags in current post. Ff any tag is not created. insert it to database.
+	tags := strings.Split(item.Tags, ",")
+	tagCollection := db.C("tag")
+	for _, tag := range tags {
+		tagResultCount, err := tagCollection.Find(bson.M{"name": tag}).Count()
+		if err != nil {
+			revel.WARN.Println("Cannot count the numer of selected tag: ", tag)
+			revel.WARN.Println(err)
+		} else {
+			if tagResultCount == 0 {
+				insertErr := tagCollection.Insert(models.Tag{tag})
+				if insertErr != nil {
+					revel.ERROR.Printf("Cannot insert tag[%s] in to 'tag'", tag)
+					revel.ERROR.Println(err)
+				}
+			}
+		}
+	}
 
 	return p.Render()
 }
@@ -51,12 +70,6 @@ func (p *Post) List() revel.Result {
 		// TODO print error or redirect to error page
 		log.Panicln(err)
 	}
-
-	/**** DEBUG ****/
-	for _, itm := range itemList {
-		log.Println(itm)
-	}
-	/**** DEBUG ****/
 
 	return p.RenderJson(itemList)
 }
