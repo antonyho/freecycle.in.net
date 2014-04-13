@@ -22,6 +22,7 @@ func (p *Post) New(item models.Item) revel.Result {
 	now := time.Now().Unix()
 	item.PostDate = now
 	item.UpdateDate = now
+	item.Status = "P"	// pending for email confirmation
 
 	// TODO add validations
 
@@ -39,6 +40,7 @@ func (p *Post) New(item models.Item) revel.Result {
 	tags := strings.Split(item.Tags, ",")
 	tagCollection := db.C("tag")
 	for _, tag := range tags {
+		/*
 		tagResultCount, err := tagCollection.Find(bson.M{"name": tag}).Count()
 		if err != nil {
 			revel.WARN.Println("Cannot count the numer of selected tag: ", tag)
@@ -52,6 +54,12 @@ func (p *Post) New(item models.Item) revel.Result {
 				}
 			}
 		}
+		*/
+		_, err := tagCollection.Upsert(bson.M{"name": tag}, models.Tag{tag})
+		if err != nil {
+			revel.ERROR.Printf("Cannot insert tag[%s] in to 'tag'", tag)
+			revel.ERROR.Println(err)
+		}
 	}
 
 	return p.Render()
@@ -63,13 +71,15 @@ func (p *Post) List() revel.Result {
 	defer session.Close()
 	itemCollection := db.C("item")
 	var itemList []models.Item
-	query := itemCollection.Find(nil).Limit(100).Sort("-postdate")
+	query := itemCollection.Find(bson.M{"status": "A"}).Limit(100).Sort("-postdate")
 	err := query.All(&itemList)
 
 	if err != nil {
 		// TODO print error or redirect to error page
 		log.Panicln(err)
 	}
+
+	// TODO Important!!! Remove owner email and ID
 
 	return p.RenderJson(itemList)
 }

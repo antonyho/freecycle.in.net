@@ -29,7 +29,7 @@
 						
 						{{with $field := field "item.Tags" .}}
 						<div class="form-group">
-							<label for="{{$field.Name}}">Tags</label><p class="help-block">Type any keyword to describe this item, then press [Enter].</p>
+							<label for="{{$field.Name}}">Tags</label><p class="help-block">Type any keyword to describe this item, then press [Enter]. It helps people to search for this item later.</p>
 							<input type="text" name="{{$field.Name}}" id="{{$field.Name}}" data-role="tagsinput" class="form-control" placeholder="Keyword..." required>
 						</div>
 						{{end}}
@@ -153,6 +153,28 @@
 					else {
 						$('#deliveryBlock').show();
 						$('#pickupLocationBlock').hide();
+					}
+				});
+				
+				$('input[name="item.Tags"]').tagsinput('input').typeahead({
+					source: function(typed, process) {
+						var tags;
+						var query = {q: typed};
+						$.ajax({
+							url: '/App/Tags',
+							data: query,
+							async: false,
+							dataType: 'json',
+							success: function(data) {
+								tags = $.map(data, function(element, idx) {
+									return element.Name;
+								});
+							}
+						});
+						return tags;
+					},
+					updater: function(selectedItem) {
+						$('input[name="item.Tags"]').tagsinput('add', selectedItem);
 					}
 				});
 			});
