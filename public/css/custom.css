@@ -15,3 +15,11 @@
 ul > li {
 	text-align: left;
 }
+
+.jumbotron {
+	background-color: #7AC50A;
+}
+
+#item-tooltip {
+	text-align: left;
+}
