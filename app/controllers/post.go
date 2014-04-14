@@ -22,7 +22,7 @@ func (p *Post) New(item models.Item) revel.Result {
 	now := time.Now().Unix()
 	item.PostDate = now
 	item.UpdateDate = now
-	item.Status = "P"	// pending for email confirmation
+	item.Status = "P" // pending for email confirmation
 
 	// TODO add validations
 
@@ -32,34 +32,33 @@ func (p *Post) New(item models.Item) revel.Result {
 	itemCollection := db.C("item")
 	err := itemCollection.Insert(item)
 	if err != nil {
-		revel.ERROR.Println("Cannot insert record in to 'item'")
+		revel.ERROR.Println("Cannot insert record into 'item'")
 		revel.ERROR.Println(err)
 	}
 
-	// TODO Search for the tags in current post. Ff any tag is not created. insert it to database.
+	// Search for the tags in current post. If any tag is not created. insert it to database.
 	tags := strings.Split(item.Tags, ",")
 	tagCollection := db.C("tag")
 	for _, tag := range tags {
-		/*
-		tagResultCount, err := tagCollection.Find(bson.M{"name": tag}).Count()
-		if err != nil {
-			revel.WARN.Println("Cannot count the numer of selected tag: ", tag)
-			revel.WARN.Println(err)
-		} else {
-			if tagResultCount == 0 {
-				insertErr := tagCollection.Insert(models.Tag{tag})
-				if insertErr != nil {
-					revel.ERROR.Printf("Cannot insert tag[%s] in to 'tag'", tag)
-					revel.ERROR.Println(err)
-				}
-			}
-		}
-		*/
 		_, err := tagCollection.Upsert(bson.M{"name": tag}, models.Tag{tag})
 		if err != nil {
 			revel.ERROR.Printf("Cannot insert tag[%s] in to 'tag'", tag)
 			revel.ERROR.Println(err)
 		}
+	}
+
+	remoteAddress := p.Controller.Request.RemoteAddr
+	activityDetail := "Create new post: " + item.Title
+	userActivity := models.Activity{
+		PerformDate: now,
+		Detail:      activityDetail,
+		SourceAddr:  remoteAddress,
+	}
+	activityCollection := db.C("activity")
+	err = activityCollection.Insert(userActivity)
+	if err != nil {
+		revel.ERROR.Println("Cannot insert user activity into 'activity'")
+		revel.ERROR.Println(err)
 	}
 
 	return p.Render()
