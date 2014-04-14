@@ -41,21 +41,37 @@
 			</div>
 		
 		</div>
-
-		<div id="item-tooltip">
-			<h5 id="item-title"></h5>(<span id="item-post-date"></span>)
-			<p><span>Description:</span><br><span id="item-desc"></span></p>
-			<p><span>Condition:</span><span id="item-condition"></span></p>
-			<p><span>Handover Method:</span><span id="item-handover"></span></p>
-			<p><span>Handover Detail:</span><span id="item-handover-detail"></span></p>
-			<p><span>Owner:</span><span id="item-owner"></span></p>
-			<p><span>Last Update Date:</span><span id="item-update-date"></span></p>
+		
+		
+		
+		<!-- Modal -->
+		<div class="modal fade" id="item-tooltip" tabindex="-1" role="dialog" aria-labelledby="item-tooltip-label" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="item-title"></h4>
+					</div>
+					<div class="modal-body">
+						<p><span>Post Date:</span><span id="item-post-date"></span></p>
+						<p><span>Description:</span><br><span id="item-desc"></span></p>
+						<p><span>Condition:</span><span id="item-condition"></span></p>
+						<p><span>Handover Method:</span><span id="item-handover"></span></p>
+						<p><span>Handover Detail:</span><span id="item-handover-detail"></span></p>
+						<p><span>Owner:</span><span id="item-owner"></span></p>
+						<p><span>Last Update Date:</span><span id="item-update-date"></span></p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Reserve</button>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<script type="text/javascript">
 			var listData;
 			$(document).ready(function() {
-				$("#item-tooltip").hide();
 				$.post(
 					'/Post/List', 
 					function(data) {
@@ -63,9 +79,8 @@
 							listData = data;
 							var item = data[idx];
 							var newRow = $("<tr></tr>");
-							newRow.attr("data-toggle", "tooltip");
-							newRow.attr("data-html", "true");
-							newRow.attr("data-placement", "left");
+							newRow.attr("data-toggle", "modal");
+							newRow.attr("data-target", "#item-tooltip");
 							newRow.attr("data-index", idx);
 							var newTitleCol = $("<td></td>").append(item.Title);
 							var newConditionBadge = $("<span></span>");
@@ -103,6 +118,11 @@
 							newPostDate.append($.datepicker.formatDate('yy-mm-dd', postDate));
 
 							newRow.append(newTitleCol).append(newLocationCol).append(newPostDate);
+							$('#item-tooltip').on('show.bs.modal', function (e) {
+								alert(e);
+							});
+							
+							/*
 							newRow.tooltip({
 								title: function() {
 									var idx = $(this).attr("data-index");
@@ -147,6 +167,7 @@
 									return htmlContent.show();
 								}
 							});
+							*/
 							$("#itemlist > tbody").append(newRow);
 						}
 					}, 
