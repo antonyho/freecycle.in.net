@@ -52,14 +52,14 @@
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 						<h4 class="modal-title" id="item-title"></h4>
 					</div>
-					<div class="modal-body">
-						<p><span>Post Date:</span><span id="item-post-date"></span></p>
-						<p><span>Description:</span><br><span id="item-desc"></span></p>
-						<p><span>Condition:</span><span id="item-condition"></span></p>
-						<p><span>Handover Method:</span><span id="item-handover"></span></p>
-						<p><span>Handover Detail:</span><span id="item-handover-detail"></span></p>
-						<p><span>Owner:</span><span id="item-owner"></span></p>
-						<p><span>Last Update Date:</span><span id="item-update-date"></span></p>
+					<div class="modal-body row">
+						<p><span class="col-md-4">Posted on: </span><span class="col-md-8" id="item-post-date"></span></p>
+						<p><span class="col-md-12">Description: </span><br><span class="col-md-12" id="item-desc"></span></p>
+						<p><span class="col-md-4">Condition: </span><span class="col-md-8" id="item-condition"></span></p>
+						<p><span class="col-md-4">Handover method: </span><span class="col-md-8" id="item-handover"></span></p>
+						<p><span class="col-md-4">Handover detail: </span><span class="col-md-8" id="item-handover-detail"></span></p>
+						<p><span class="col-md-4">Owner: </span><span class="col-md-8" id="item-owner"></span></p>
+						<p><span class="col-md-4">Last update at: </span><span class="col-md-8" id="item-update-date"></span></p>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -118,10 +118,48 @@
 							newPostDate.append($.datepicker.formatDate('yy-mm-dd', postDate));
 
 							newRow.append(newTitleCol).append(newLocationCol).append(newPostDate);
+							newRow.click(function(){
+								var thisItem = listData[$(this).attr("data-index")];
+								$("#item-title").text(thisItem.Title);
+								$("#item-desc").text(thisItem.Description);
+								$("#item-post-date").text($.datepicker.formatDate('yy-mm-dd', new Date(thisItem.PostDate * 1000)));
+								if (thisItem.Condition == 100)
+									$("#item-condition").text("new");
+								else
+									$("#item-condition").text(thisItem.Condition + "%");
+								var handoverMethod;
+								var handoverDetail;
+								switch (thisItem.Handover) {
+									case "F":
+									handoverMethod = "Transition in face to face";
+									handoverDetail = thisItem.Location;
+									break;
+
+									case "D":
+									handoverMethod = "Delivery";
+									switch (thisItem.Delivery) {
+										case "P":
+										handoverDetail = "Delivery by postal service";
+										break;
+
+										case "C":
+										handoverDetail = "Delivery by courrier";
+										break;
+									}
+									break;
+
+								}
+								$("#item-handover").text(handoverMethod);
+								$("#item-handover-detail").text(handoverDetail);
+
+								$("#item-owner").text(thisItem.Contact);
+								$("#item-update-date").text($.datepicker.formatDate('yy-mm-dd', new Date(thisItem.UpdateDate * 1000)));
+							});
+							/*
 							$('#item-tooltip').on('show.bs.modal', function (e) {
 								alert(e);
 							});
-							
+							*/
 							/*
 							newRow.tooltip({
 								title: function() {

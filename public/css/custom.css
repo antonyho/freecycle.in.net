@@ -17,9 +17,10 @@ ul > li {
 }
 
 .jumbotron {
-	background-color: #7AC50A;
+	background-color: #A8CC36;
 }
 
 #item-tooltip {
 	text-align: left;
+	color: #000;
 }
