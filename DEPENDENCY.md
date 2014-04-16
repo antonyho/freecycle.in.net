@@ -5,6 +5,7 @@ Dependency
 - mgo go lang driver [http://labix.org/mgo](http://labix.org/mgo)
 - Bootstrap Tag Manager [http://timschlechter.github.io/bootstrap-tagsinput/examples/](http://timschlechter.github.io/bootstrap-tagsinput/examples/)
 - The Typeahead plugin from Twitter's Bootstrap 2 to use with Bootstrap 3 [https://github.com/bassjobsen/Bootstrap-3-Typeahead](https://github.com/bassjobsen/Bootstrap-3-Typeahead)
+- Fuel UX for extended Bootstrap components [http://exacttarget.github.io/fuelux/](http://exacttarget.github.io/fuelux/)
 - reCAPTCHA [http://www.google.com/recaptcha](http://www.google.com/recaptcha)
 
 
@@ -29,3 +30,8 @@ go get labix.org/v2/mgo
 
 ### Downloading Bootstrap 3 Typeahead backport
 [https://github.com/bassjobsen/Bootstrap-3-Typeahead](https://github.com/bassjobsen/Bootstrap-3-Typeahead)
+
+***
+
+### Downloading Fuel UX
+[https://github.com/ExactTarget/fuelux](https://github.com/ExactTarget/fuelux)
