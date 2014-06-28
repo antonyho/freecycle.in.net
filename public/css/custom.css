@@ -24,3 +24,16 @@ ul > li {
 	text-align: left;
 	color: #000;
 }
+
+#itemlist-block {
+	color: #000;
+}
+
+#itemlist-block .datagrid {
+	background-color: #fff;
+	color: #000;
+}
+
+#itemlist-block input {
+	height: auto;
+}

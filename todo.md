@@ -2,3 +2,4 @@
  - https://www.igniteui.com/grid/twitter-bootstrap
  - http://exacttarget.github.io/fuelux/#datagrid
  - http://backgridjs.com/
+2. Add tags to item list
