@@ -67,11 +67,14 @@ func (p *Post) New(item models.Item) revel.Result {
 func (p *Post) List() revel.Result {
 	dbutils := new(utils.DbUtils)
 	session, db := dbutils.GetSession()
+	if db == nil {
+		return nil
+	}
 	defer session.Close()
 	itemCollection := db.C("item")
 	var itemList []models.Item
 	query := itemCollection.Find(bson.M{"status": "A"}).Limit(100).Sort("-postdate")
-	err := query.All(&itemList)
+	err := query.Select(bson.M{"email": 0, "owner": 0}).All(&itemList)
 
 	if err != nil {
 		// TODO print error or redirect to error page
