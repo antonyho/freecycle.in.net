@@ -1,6 +1,9 @@
 package models
 
+import "labix.org/v2/mgo/bson"
+
 type Item struct {
+	Id            bson.ObjectId `bson:"_id,omitempty"`
 	Title         string
 	Description   string
 	Tags          string // seperated by comma, should be mapped with Tag model in database
