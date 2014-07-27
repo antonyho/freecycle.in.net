@@ -112,3 +112,10 @@ http://godoc.org/labix.org/v2/mgo
 MongoDB tutorial:
 
 http://docs.mongodb.org/manual/tutorial/query-documents/
+
+
+
+
+Another good mgo example:
+
+https://gist.github.com/border/3489566

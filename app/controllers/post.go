@@ -10,6 +10,12 @@ import (
 	"time"
 )
 
+type PostItem struct {
+	models.Item
+	PostDateString   string
+	UpdateDateString string
+}
+
 type Post struct {
 	*revel.Controller
 }
@@ -74,16 +80,30 @@ func (p *Post) List() revel.Result {
 	itemCollection := db.C("item")
 	var itemList []models.Item
 	query := itemCollection.Find(bson.M{"status": "A"}).Limit(100).Sort("-postdate")
-	err := query.Select(bson.M{"email": 0, "owner": 0}).All(&itemList)
+	err := query.Select(bson.M{"email": 0, "owner": 0}).All(&itemList) // Important!!! Remove owner email and ID
 
 	if err != nil {
 		// TODO print error or redirect to error page
 		log.Panicln(err)
 	}
 
-	// TODO Important!!! Remove owner email and ID
+	postItemList := make([]PostItem, len(itemList))
+	for idx, itm := range itemList {
+		postItemList[idx] = PostItem{
+			itm,
+			time.Unix(itm.PostDate, 0).Format("Jan 2, 2006 at 3:04pm"),
+			time.Unix(itm.UpdateDate, 0).Format("Jan 2, 2006 at 3:04pm"),
+		}
+	}
 
-	return p.RenderJson(itemList)
+	// bs_grid style JSON
+	var bsGridJSON interface{}
+	bsGridJSON = map[string]interface{}{
+		"total_rows": len(itemList),
+		"page_data":  postItemList,
+	}
+
+	return p.RenderJson(bsGridJSON)
 }
 
 /*

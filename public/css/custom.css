@@ -29,11 +29,7 @@ ul > li {
 	color: #000;
 }
 
-#itemlist-block .datagrid {
+#itemlist-block.datagrid {
 	background-color: #fff;
 	color: #000;
-}
-
-#itemlist-block input {
-	height: auto;
 }

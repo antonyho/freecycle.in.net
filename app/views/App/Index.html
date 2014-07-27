@@ -21,79 +21,8 @@
 							</div>
 						</div>
 						
-						<div id="itemlist-block" class="fuelux">
-							<table id="itemlist" class="table table-bordered datagrid">
-								<thead>
-								<tr>
-									<th>
-										<span class="datagrid-header-title">Latest Items</span>
-							 
-										<div class="datagrid-header-left">
-											<div class="input-append search datagrid-search">
-												<input type="text" class="input-medium" placeholder="Search">
-												<button type="button" class="btn"><i class="icon-search"></i></button>
-											</div>
-										</div>
-										<div class="datagrid-header-right">
-											<div class="select filter" data-resize="auto">
-												<button type="button" data-toggle="dropdown" class="btn dropdown-toggle">
-													<span class="dropdown-label"></span>
-													<span class="caret"></span>
-												</button>
-												<ul class="dropdown-menu">
-													<li data-value="all" data-selected="true"><a href="#">All</a></li>
-													<li data-value="lt5m"><a href="#">Population < 5M</a></li>
-													<li data-value="gte5m"><a href="#">Population >= 5M</a></li>
-												</ul>
-											</div>
-										</div>
-									</th>
-								</tr>
-								</thead>
-								<tfoot>
-								<tr>
-									<th>
-										<div class="datagrid-footer-left" style="display:none;">
-											<div class="grid-controls">
-												<span>
-													<span class="grid-start"></span> -
-													<span class="grid-end"></span> of
-													<span class="grid-count"></span>
-												</span>
-												<div class="select grid-pagesize" data-resize="auto">
-													<button type="button" data-toggle="dropdown" class="btn dropdown-toggle">
-														<span class="dropdown-label"></span>
-														<span class="caret"></span>
-													</button>
-													<ul class="dropdown-menu">
-														<li data-value="5" data-selected="true"><a href="#">5</a></li>
-														<li data-value="10"><a href="#">10</a></li>
-														<li data-value="20"><a href="#">20</a></li>
-														<li data-value="50"><a href="#">50</a></li>
-														<li data-value="100"><a href="#">100</a></li>
-													</ul>
-												</div>
-												<span>Per Page</span>
-											</div>
-										</div>
-										<div class="datagrid-footer-right" style="display:none;">
-											<div class="grid-pager">
-												<button type="button" class="btn grid-prevpage"><i class="icon-chevron-left"></i></button>
-												<span>Page</span>
-							 
-												<div class="input-append dropdown combobox">
-													<input class="span1" type="text">
-													<button type="button" class="btn" data-toggle="dropdown"><i class="caret"></i></button>
-													<ul class="dropdown-menu"></ul>
-												</div>
-												<span>of <span class="grid-pages"></span></span>
-												<button type="button" class="btn grid-nextpage"><i class="icon-chevron-right"></i></button>
-											</div>
-										</div>
-									</th>
-								</tr>
-								</tfoot>
-							</table>
+						<div id="itemlist-block" class="datagrid">
+							<div id="itemlist"></div>
 						</div>
 					</div>
 							
@@ -140,143 +69,21 @@
 			var listData;
 			$(document).ready(function() {
 				
-				$('#itemlist').datagrid(
-					{
-						dataSource: {
-							columns: function() {
-								var cols = [
-									{
-										property: 'Title',
-										label: 'Item',
-										sortable: false
-									},{
-										property: 'Condition',
-										label: 'Condition',
-										sortable: false
-									},{
-										property: 'Handover',
-										label: 'Handover Method',
-										sortable: false
-									},{
-										property: 'PostDateText',
-										label: 'Post Date',
-										sortable: true
-									}
-								];
-								
-								return cols;
-							},
-							data: function(data, callback) {
-								$.post(
-									'/Post/List', 
-									function(data) {
-										for (idx in data) {
-											d = new Date();
-											d.setTime(data[idx]['PostDate'] * 1000);
-											data[idx]['PostDateText'] = d.toLocaleString(); ;
-											
-											listData = data;
-										}
-									}, 
-									'json'
-								).done(function(response) {
-									callback({ data: response, start: 1, end: Object.keys(response).length, count: Object.keys(response).length, pages: 1, page: 1 });
-								});
-							}
-						},
-						stretchHeight: true,
-					}
-				);
-				/*
-				$.post(
-					'/Post/List', 
-					function(data) {
-						for (idx in data) {
-							listData = data;
-							var item = data[idx];
-							var newRow = $("<tr></tr>");
-							newRow.attr("data-toggle", "modal");
-							newRow.attr("data-target", "#item-tooltip");
-							newRow.attr("data-index", idx);
-							var newTitleCol = $("<td></td>").append(item.Title);
-							var newConditionBadge = $("<span></span>");
-							if (item.Condition < 100)
-								newConditionBadge.addClass("badge").append(item.Condition).append("%");
-							else
-								newConditionBadge.addClass("label label-default").append("new");
-							newTitleCol.append(newConditionBadge);
-
-							var handling;
-							switch (item.Handover) {
-								case "F":
-								handling = item.Location;
-								break;
-
-								case "D":
-								switch (item.Delivery) {
-									case "P":
-									handling = "Postal";
-									break;
-
-									case "C":
-									handling = "Courrier";
-									break;
-
-									default:
-									handling = "Delivery"
-								}
-								break;
-							}
-							var newLocationCol = $("<td></td>").append(handling);
-
-							var newPostDate = $("<td></td>");
-							var postDate = new Date(item.PostDate * 1000);
-							newPostDate.append($.datepicker.formatDate('yy-mm-dd', postDate));
-
-							newRow.append(newTitleCol).append(newLocationCol).append(newPostDate);
-							newRow.click(function(){
-								var thisItem = listData[$(this).attr("data-index")];
-								$("#item-title").text(thisItem.Title);
-								$("#item-desc").text(thisItem.Description);
-								$("#item-post-date").text($.datepicker.formatDate('yy-mm-dd', new Date(thisItem.PostDate * 1000)));
-								if (thisItem.Condition == 100)
-									$("#item-condition").text("new");
-								else
-									$("#item-condition").text(thisItem.Condition + "%");
-								var handoverMethod;
-								var handoverDetail;
-								switch (thisItem.Handover) {
-									case "F":
-									handoverMethod = "Transition in face to face";
-									handoverDetail = thisItem.Location;
-									break;
-
-									case "D":
-									handoverMethod = "Delivery";
-									switch (thisItem.Delivery) {
-										case "P":
-										handoverDetail = "Delivery by postal service";
-										break;
-
-										case "C":
-										handoverDetail = "Delivery by courrier";
-										break;
-									}
-									break;
-
-								}
-								$("#item-handover").text(handoverMethod);
-								$("#item-handover-detail").text(handoverDetail);
-
-								$("#item-owner").text(thisItem.Contact);
-								$("#item-update-date").text($.datepicker.formatDate('yy-mm-dd', new Date(thisItem.UpdateDate * 1000)));
-							});]
-							
-							$("#itemlist > tbody").append(newRow);
-						}
-					}, 
-					'json');
-				*/
+				$('#itemlist').bs_grid({
+					bootstrap_version: "3",
+					ajaxFetchDataURL: "/Post/List",
+					row_primary_key: "Id",
+					columns: [
+						{ field: "Title", header: "Item", visible: "yes", "sortable": "no" },
+						{ field: "Condition", header: "Condition", visible: "yes", "sortable": "no" },
+						{ field: "Handover", header: "Handover Method", visible: "yes", "sortable": "no" },
+						{ field: "PostDateString", header: "Post Date", visible: "yes", "sortable": "yes" }
+					],
+					sorting: [
+						{sortingName: "Post Date", field: "PostDateString", order: "descending"}
+					],
+					useFilters: false
+				});
 			});
 		</script>
 
